@@ -1,0 +1,19 @@
+{
+  "name": "employee_directory_api",
+  "version": "1.0.0",
+  "description": "A simple contact entry system",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "flyway -X -configFiles=flyway/flyway.conf migrate",
+    "start": "node server.js"
+  },
+  "author": "Jake Bruce",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "flywaydb-cli": "^0.8.3",
+    "knex": "^0.95.11",
+    "pg": "^8.7.1"
+  }
+}
