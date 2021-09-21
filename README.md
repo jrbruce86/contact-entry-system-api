@@ -8,10 +8,10 @@ npm install
 2. Start up the database
 
 ```shell
-localdb/startdb.sh
+./startdb.sh
 ```
 
-3. Start the server
+3. Start the server in a new terminal tab
 ```shell
 ./startServer.sh
 ```
