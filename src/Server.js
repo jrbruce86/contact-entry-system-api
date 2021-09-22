@@ -1,24 +1,23 @@
-// Server.js
 
+import configureContainer from './config/ContactsConfig.js';
+import express from 'express';
 
-// Grab the configuration
-const config = require("config");
+const awilixContainer = configureContainer();
 
-// Express - web framework
-const express = require("express");
-const app = express();
-const PORT = config.get("port"); // TODO make configurable
-// use only when you want to see the metric related to express app
-// app.use(require('express-status-monitor')());
+/** For debugging purposes, print the registered DI modules **/
+import awilix from 'awilix';
+const modules = awilix.listModules(['service/*', 'application/*', 'config/*'], {cwd: 'src/'});
+console.log("Modules:");
+console.log(modules)
 
-
-// TODO use awilix to load up the DI object graph (Routes at the top...)
-
-
-
-
-app.listen(PORT, function() {
-  console.log('Server is running on PORT:',PORT);
+/** Resolve express app and routes from DI and start listening for requests **/
+const expressApp = awilixContainer.resolve('expressApp')
+awilixContainer.resolve('routes');
+const port = awilixContainer
+  .resolve('config')
+  .get('port');
+expressApp.listen(port, function() {
+  console.log('Server is running on PORT:', port);
 });
 
 

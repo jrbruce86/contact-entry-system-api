@@ -2,6 +2,7 @@
   "name": "employee_directory_api",
   "version": "1.0.0",
   "description": "A simple contact entry system",
+  "type": "module",
   "main": "src/Server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,6 +18,7 @@
     "express": "^4.17.1",
     "flywaydb-cli": "^0.8.3",
     "knex": "^0.95.11",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "uuid": "^8.3.2"
   }
 }

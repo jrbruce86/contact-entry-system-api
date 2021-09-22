@@ -1,7 +1,7 @@
+import Ajv from 'ajv/dist/jtd.js'
 
-function createInputValidator() {
+export default function createInputValidator() {
   // Ajv - schema validation
-  const Ajv = require("ajv/dist/jtd")
   const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
 
   // Build out the expected request schema for validation
@@ -40,11 +40,20 @@ function createInputValidator() {
     validateRequest: (requestBody) => {
       const valid = validate(requestBody);
       if (!valid) {
-        // TODO add logic to handle validation failure
-        console.log("ERROR: Schema validation failure");
+        console.log('ERROR: Schema validation failure');
         console.log(validate.errors);
+        throw {
+          errorDescription: 'Input schema validation failed on request body',
+          requestBody: requestBody,
+          errors: validate.errors
+        };
       }
       // TODO add more validation logic
     }
   }
+
+}
+
+function stringifyJSON(json) {
+  return JSON.stringify(json, null, 2);
 }
