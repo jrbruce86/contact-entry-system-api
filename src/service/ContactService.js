@@ -1,7 +1,6 @@
-import {v4 as uuidv4} from "uuid";
-import { validate as uuidValidate } from 'uuid';
+const {v4: uuidv4, validate: uuidValidate} = require('uuid');
 
-export default function createContactService({mapper, config, knex}) {
+function createContactService({mapper, config, knex}) {
   return {
     addNewContact: (contactDto) => {
       return mapper.toContactDbEntry(contactDto, uuidv4())
@@ -126,32 +125,33 @@ export default function createContactService({mapper, config, knex}) {
     }
 
   }
-
-  function nonMatchingIdExists(otherIdArray, currentId) {
-    return otherIdArray.length > 1 || (otherIdArray.length === 1 && currentId !== otherIdArray[0]['id']);
-  }
-
-  function checkIfContactExists(trx, contactEntry) {
-    return trx.select('id').from('contacts').where({
-      name_first: contactEntry.name_first,
-      name_middle: contactEntry.name_middle,
-      name_last: contactEntry.name_last,
-      address_street: contactEntry.address_street,
-      address_city: contactEntry.address_city,
-      address_state: contactEntry.address_state,
-      address_zip: contactEntry.address_zip
-    });
-  }
-
-  function checkIfPhoneNumberExists(trx, contactEntry) {
-    const phoneNumbers = [contactEntry.phone_number_home,
-      contactEntry.phone_number_mobile,
-      contactEntry.phone_number_work].filter(n => n);
-
-    return trx.select('id').from('contacts')
-      .whereIn('phone_number_home', phoneNumbers)
-      .orWhereIn('phone_number_mobile', phoneNumbers)
-      .orWhereIn('phone_number_work', phoneNumbers);
-  }
 }
 
+module.exports = createContactService;
+
+function nonMatchingIdExists(otherIdArray, currentId) {
+  return otherIdArray.length > 1 || (otherIdArray.length === 1 && currentId !== otherIdArray[0]['id']);
+}
+
+function checkIfContactExists(trx, contactEntry) {
+  return trx.select('id').from('contacts').where({
+    name_first: contactEntry.name_first,
+    name_middle: contactEntry.name_middle,
+    name_last: contactEntry.name_last,
+    address_street: contactEntry.address_street,
+    address_city: contactEntry.address_city,
+    address_state: contactEntry.address_state,
+    address_zip: contactEntry.address_zip
+  });
+}
+
+function checkIfPhoneNumberExists(trx, contactEntry) {
+  const phoneNumbers = [contactEntry.phone_number_home,
+    contactEntry.phone_number_mobile,
+    contactEntry.phone_number_work].filter(n => n);
+
+  return trx.select('id').from('contacts')
+    .whereIn('phone_number_home', phoneNumbers)
+    .orWhereIn('phone_number_mobile', phoneNumbers)
+    .orWhereIn('phone_number_work', phoneNumbers);
+}

@@ -1,6 +1,7 @@
-import Ajv from 'ajv/dist/jtd.js'
 
-export default function createInputValidator() {
+const Ajv = require('ajv/dist/jtd.js');
+
+function createInputValidator() {
   // Ajv - schema validation
   const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
 
@@ -54,6 +55,4 @@ export default function createInputValidator() {
 
 }
 
-function stringifyJSON(json) {
-  return JSON.stringify(json, null, 2);
-}
+module.exports = createInputValidator;

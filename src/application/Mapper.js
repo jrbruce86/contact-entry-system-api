@@ -1,5 +1,5 @@
 
-export default function createMapper({inputValidator}) {
+function createMapper({inputValidator}) {
   return {
     toContactDbEntry: (requestDto, uuid) => {
       return new Promise( (resolve, reject) => {
@@ -73,6 +73,8 @@ export default function createMapper({inputValidator}) {
   }
 }
 
+module.exports = createMapper;
+
 /*****************************
  * Phone DTO helpers
  ****************************/
@@ -92,7 +94,7 @@ function pushToPhoneDtoArrayIfPresent(phoneDtoArray, phoneNumberType, phoneNumbe
 }
 
 /*********************************
- *  Database Integrity Checks
+ *  Request Integrity Checks
  ********************************/
 
 function rejectIfPhoneTypePopulated(reject, phoneNumberValue, phoneNumberType) {
