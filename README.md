@@ -15,3 +15,14 @@ npm install
 ```shell
 ./startServer.sh
 ```
+
+## Run integration tests (I use a separate database for testing purposes)
+```shell
+npm testMigrate
+npm test
+```
+
+## See code coverage (will generate in coverage/lcov-report/index.html)
+```shell
+node_modules/jest/bin/jest.js --coverage
+```

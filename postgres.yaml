@@ -6,9 +6,19 @@ services:
   db:
     image: postgres:13.4
     ports:
-      - "5432:5432"
+      - "5961:5432"
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: contacts_db
+
+  testDb:
+    image: postgres:13.4
+    ports:
+      - "5105:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: contacts_test_db

@@ -1,0 +1,15 @@
+{
+  "name": "Project Name - Test Mode",
+  "port": 3000,
+  "mode": "development",
+  "protocol": "http",
+  "serverUrl": "localhost",
+  "serverUrlWebUrlLink": "localhost:4200/",
+  "databaseConnection": {
+    "host": "localhost",
+    "port": "5105",
+    "user": "root",
+    "password": "root",
+    "database": "contacts_test_db"
+  }
+}
