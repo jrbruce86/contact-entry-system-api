@@ -18,7 +18,7 @@ npm install
 
 ## Run integration tests (I use a separate database for testing purposes)
 ```shell
-npm testMigrate
+npm run testMigrate
 npm test
 ```
 
