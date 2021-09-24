@@ -7,6 +7,7 @@ function createRoutes({ routeHandlers, expressApp }) {
   expressApp.get('/contacts/call-list', routeHandlers.getCallList);
   expressApp.get('/contacts/:id', routeHandlers.getContact);
   expressApp.delete('/contacts/:id', routeHandlers.deleteContact);
+  return expressApp;
 }
 
 module.exports = createRoutes;

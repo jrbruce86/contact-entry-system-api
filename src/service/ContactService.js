@@ -1,6 +1,6 @@
 const {v4: uuidv4, validate: uuidValidate} = require('uuid');
 
-function createContactService({mapper, config, knex}) {
+function createContactService({mapper, knex}) {
   return {
     addNewContact: (contactDto) => {
       return mapper.toContactDbEntry(contactDto, uuidv4())

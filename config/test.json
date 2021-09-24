@@ -1,5 +1,5 @@
 {
-  "name": "Project Name - Dev Mode",
+  "name": "Project Name - Test Mode",
   "port": 3000,
   "mode": "development",
   "protocol": "http",
@@ -7,9 +7,9 @@
   "serverUrlWebUrlLink": "localhost:4200/",
   "databaseConnection": {
     "host": "localhost",
-    "port": "5961",
+    "port": "5105",
     "user": "root",
     "password": "root",
-    "database": "contacts_db"
+    "database": "contacts_test_db"
   }
 }
