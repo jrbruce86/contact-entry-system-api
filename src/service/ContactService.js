@@ -6,7 +6,7 @@ function createContactService({mapper, knex}) {
       return mapper.toContactDbEntry(contactDto, uuidv4())
         .then(contactEntry => {
           return knex.transaction(trx => {
-            return checkIfContactExists(trx, contactEntry)
+            return checkForMatchingNameAndAddress(trx, contactEntry)
               .then(contactId => {
                 if (Array.isArray(contactId) && contactId.length > 0) {
                   throw {
@@ -14,7 +14,7 @@ function createContactService({mapper, knex}) {
                     id: contactId
                   };
                 }
-                return checkIfPhoneNumberExists(trx, contactEntry)
+                return checkForMatchingPhoneNumber(trx, contactEntry)
                   .then(existingIds => {
                     if (Array.isArray(existingIds) && existingIds.length > 0) {
                       throw {
@@ -25,7 +25,12 @@ function createContactService({mapper, knex}) {
                     return trx.insert(contactEntry)
                       .into('contacts')
                       .returning('*')
-                      .then(storedEntry => mapper.toContactDto(storedEntry[0]));
+                      .then(storedEntry => {
+                        if (storedEntry.length === 0) {
+                          throw `Could not verify contact with id ${contactEntry['id']} was added to the system.`;
+                        }
+                        return mapper.toContactDto(storedEntry[0])
+                      });
                   });
               });
           });
@@ -48,14 +53,14 @@ function createContactService({mapper, knex}) {
           }
         }
         return knex.transaction(trx => {
-          return checkIfContactExists(trx, contactEntry).then(existingIds => {
+          return checkForMatchingNameAndAddress(trx, contactEntry).then(existingIds => {
             if (nonMatchingIdExists(existingIds, id)) {
               throw {
                 errorDescription: 'Can\'t update contact with name and address matching existing contact',
                 existingIds: existingIds
               }
             }
-            return checkIfPhoneNumberExists(trx, contactEntry).then(existingIds => {
+            return checkForMatchingPhoneNumber(trx, contactEntry).then(existingIds => {
               if (nonMatchingIdExists(existingIds, id)) {
                 throw {
                   errorDescription: 'Can\'t update contact with phone number matching existing contact',
@@ -66,7 +71,12 @@ function createContactService({mapper, knex}) {
                 .where({id: contactEntry['id']})
                 .update(contactEntry)
                 .returning('*')
-                .then(storedEntry => mapper.toContactDto(storedEntry[0]));
+                .then(storedEntry => {
+                  if (storedEntry.length === 0) {
+                    throw `Failed to update contact with id, ${contactEntry['id']}, as it doesn't exist in database.`;
+                  }
+                  return mapper.toContactDto(storedEntry[0]);
+                });
             });
           });
         });
@@ -78,7 +88,12 @@ function createContactService({mapper, knex}) {
         return trx.select('*')
           .from('contacts')
           .where({id: id})
-          .then(retrievedEntryArray => mapper.toContactDto(retrievedEntryArray[0]))
+          .then(retrievedEntryArray => {
+            if (retrievedEntryArray.length === 0) {
+              throw `Could not find contact with id, ${id}`
+            }
+            return mapper.toContactDto(retrievedEntryArray[0]);
+          })
       })
     },
 
@@ -133,7 +148,7 @@ function nonMatchingIdExists(otherIdArray, currentId) {
   return otherIdArray.length > 1 || (otherIdArray.length === 1 && currentId !== otherIdArray[0]['id']);
 }
 
-function checkIfContactExists(trx, contactEntry) {
+function checkForMatchingNameAndAddress(trx, contactEntry) {
   return trx.select('id').from('contacts').where({
     name_first: contactEntry.name_first,
     name_middle: contactEntry.name_middle,
@@ -145,7 +160,7 @@ function checkIfContactExists(trx, contactEntry) {
   });
 }
 
-function checkIfPhoneNumberExists(trx, contactEntry) {
+function checkForMatchingPhoneNumber(trx, contactEntry) {
   const phoneNumbers = [contactEntry.phone_number_home,
     contactEntry.phone_number_mobile,
     contactEntry.phone_number_work].filter(n => n);

@@ -6,16 +6,6 @@ const config = createContactsConfig();
 const app = config.resolve('routes');
 const knex = config.resolve('knex');
 
-function createMockResult() {
-  const res = {};
-  // replace the following () => res
-  // with your function stub/mock of choice
-  // making sure they still return `res`
-  res.status = jest.fn().mockReturnValue(res);
-  res.json = jest.fn().mockReturnValue(res);
-  return res;
-}
-
 const requestBody = {
   "name": {
     "first": "BobTestOnly",
@@ -51,54 +41,72 @@ afterAll(done => {
 })
 
 test('Should store new contact', async () => {
+  // Act
   const res = await request(app)
     .post('/contacts')
     .send(requestBody)
+  // Assert
   expect(res.statusCode).toEqual(200)
 });
 
 test('Should get all contacts', async () => {
+  // Act
   const res = await request(app)
     .get('/contacts')
     .send();
+  // Assert
   expect(res.statusCode).toEqual(200);
   expect(res.body[0]).toHaveProperty('name');
-  storedContact = res.body[0];
+  storedContact = res.body[0]; // propagate state to next test
 });
 
 test( 'Should update a contact', async () => {
+  // Arrange
   const updatedContact = {};
   Object.assign(updatedContact, storedContact);
   updatedContact['phone'][0]['number'] = '302-614-9123';
   updatedContact['name']['first'] = 'John';
+
+  // Act
   const res = await request(app)
     .put(`/contacts/${storedContact['id']}`)
     .send(requestBody)
+
+  // Assert
   expect(res.statusCode).toEqual(200);
 })
 
 test( 'Should get contact', async () => {
+  // Act
   const res = await request(app)
     .get(`/contacts/${storedContact['id']}`)
     .send(requestBody)
+
+  // Assert
   expect(res.statusCode).toEqual(200);
   expect(res.body).toHaveProperty('name');
 });
 
 test ('Should generate call list', async () => {
+  // Act
   const res = await request(app)
     .get(`/contacts/call-list`)
     .send(requestBody)
+
+  // Assert
   expect(res.statusCode).toEqual(200);
   expect(res.body[0]).toHaveProperty('name');
 });
 
 test('Should delete contact', async () => {
+  // Act
   const res = await request(app)
     .delete(`/contacts/${storedContact['id']}`)
     .send(requestBody)
+
+  // Assert
   expect(res.statusCode).toEqual(200);
-})
+});
 
 
 

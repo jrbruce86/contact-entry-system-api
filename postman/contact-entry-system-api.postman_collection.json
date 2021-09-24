@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "c9e422b5-8ec4-41d4-b12e-2a3e80cd5397",
+		"name": "contact-entry-system-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "contacts",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": {\n    \"first\": \"Bob\",\n    \"middle\": \"Francis the fourteenth\",\n    \"last\": \"Saget\"\n  },\n  \"address\": {\n    \"street\": \"8360 High Autumn Row\",\n    \"city\": \"Cannon\",\n    \"state\": \"South Carolina\",\n    \"zip\": \"19797\"\n  },\n  \"phone\": [\n    {\n      \"number\": \"302-614-9122\",\n      \"type\": \"home\"\n    }\n  ],\n  \"email\": \"harold.gilkey@yahoo.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contacts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contacts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": {\n    \"first\": \"Bob\",\n    \"middle\": \"Francis the fourteenth\",\n    \"last\": \"Saget\"\n  },\n  \"address\": {\n    \"street\": \"8360 High Autumn Row\",\n    \"city\": \"Cannon\",\n    \"state\": \"Delaware\",\n    \"zip\": \"19790\"\n  },\n  \"phone\": [\n    {\n      \"number\": \"302-614-9128\",\n      \"type\": \"home\"\n    }, \n    {\n      \"number\": \"302-615-0198\",\n      \"type\": \"mobile\"\n    },\n    {\n      \"number\": \"302-615-0198\",\n      \"type\": \"work\"\n    }\n  ],\n  \"email\": \"harold.gilkey@yahoo.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/contacts/ea6c26f5-4622-445e-98fa-8cc127f7ac49",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts",
+						"ea6c26f5-4622-445e-98fa-8cc127f7ac49"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contacts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/contacts/ea6c26f5-4622-445e-98fa-8cc127f7ac49",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts",
+						"ea6c26f5-4622-445e-98fa-8cc127f7ac49"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contacts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/contacts/04162fc7-b8e6-4a2a-89f6-46be06378334",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts",
+						"04162fc7-b8e6-4a2a-89f6-46be06378334"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "contacts/call-list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/contacts/call-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"contacts",
+						"call-list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
